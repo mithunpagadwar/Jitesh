@@ -1,74 +1,321 @@
+/*
+Theme Name: ग्राम पंचायत चिखली
+Theme URI: http://gpchikhali.com
+Author: Gram Panchayat Developer
+Author URI: http://gpchikhali.com
+Description: ग्राम पंचायत चिखली के लिए विशेष रूप से विकसित किया गया वर्डप्रेस थीम जिसमें ग्राम सरकार की सभी ज़रूरतें शामिल हैं।
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: grampanchayat
+Tags: responsive, gram-panchayat, government, upi-payment, complaint-system
+*/
 
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
-:root {
-  --panchayat-primary: #FF9933;    
-  --panchayat-secondary: #138808;  
-  --panchayat-accent: #000080;     
-  --panchayat-light: #F8F5E4;      
-  --panchayat-dark: #333333;       
-  --tiranga-white: #FFFFFF;        
-}
-
+/* ------------------------
+मुख्य स्टाइल
+------------------------ */
 body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 0;
-  line-height: 1.6;
-  color: var(--panchayat-dark);
-  background: var(--panchayat-light);
+    font-family: 'Poppins', 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 15px;
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
 }
 
-/* Header Styles */
-.header {
-  background: #f8bb14;
-  padding: 1rem 0;
-  border-bottom: 3px solid var(--panchayat-primary);
+a {
+    color: #007bff;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
-/* Footer Styles */
-.footer {
-  background: var(--panchayat-accent);
-  color: var(--tiranga-white);
-  padding: 2rem 0;
-  margin-top: 2rem;
+a:hover {
+    color: #0056b3;
+    text-decoration: none;
 }
 
-.footer-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
+/* नेविगेशन */
+.site-header {
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
 }
 
-.footer h3 {
-  color: var(--panchayat-primary);
-  margin-bottom: 1rem;
+.site-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
 }
 
-.footer a {
-  color: var(--tiranga-white);
-  text-decoration: none;
+.main-navigation ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-.footer a:hover {
-  color: var(--panchayat-primary);
+.main-navigation li {
+    margin-right: 20px;
 }
 
-/* Responsive Design */
+.main-navigation a {
+    color: #333;
+    font-weight: 500;
+    padding: 5px 0;
+    position: relative;
+}
+
+.main-navigation a:hover {
+    color: #007bff;
+}
+
+.main-navigation a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #007bff;
+    transition: width 0.3s ease;
+}
+
+.main-navigation a:hover::after {
+    width: 100%;
+}
+
+/* स्लाइडर */
+.home-slider {
+    margin-bottom: 30px;
+}
+
+.swiper-slide {
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+}
+
+.slide-content {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 600px;
+}
+
+.slide-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+/* नोटिस टिकर */
+.notice-ticker {
+    overflow: hidden;
+    position: relative;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.ticker-container {
+    overflow: hidden;
+    width: 100%;
+}
+
+.ticker-content {
+    white-space: nowrap;
+    display: inline-block;
+    animation: ticker 30s linear infinite;
+}
+
+.ticker-item {
+    display: inline-block;
+    padding: 0 30px;
+    color: #d32f2f;
+}
+
+@keyframes ticker {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* सेक्शन स्टाइल */
+.section-title {
+    position: relative;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: #007bff;
+}
+
+/* समिति सदस्य कार्ड */
+.member-card {
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background-color: #fff;
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.member-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.member-avatar {
+    display: inline-block;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.member-avatar img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+/* सेवा कार्ड */
+.service-card {
+    text-align: center;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin-bottom: 30px;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+}
+
+.service-icon {
+    font-size: 3rem;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+/* शिकायत फॉर्म */
+.complaint-section {
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* हाउस टैक्स फॉर्म */
+.tax-login-form {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+}
+
+.resident-card {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-bottom: 20px;
+}
+
+/* फुटर */
+.site-footer {
+    background-color: #222;
+    color: #fff;
+    padding: 50px 0 20px;
+}
+
+.footer-widget {
+    margin-bottom: 30px;
+}
+
+.footer-widget h4 {
+    color: #fff;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #444;
+}
+
+.footer-widget ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-widget ul li {
+    margin-bottom: 10px;
+}
+
+.footer-widget ul li a {
+    color: #aaa;
+}
+
+.footer-widget ul li a:hover {
+    color: #fff;
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #444;
+    margin-top: 30px;
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+/* मीडिया क्वेरीज़ */
+@media (max-width: 992px) {
+    .main-navigation {
+        margin-top: 15px;
+    }
+}
+
 @media (max-width: 768px) {
-  .container {
-    padding: 0 10px;
-  }
-  
-  .footer-content {
-    grid-template-columns: 1fr;
-  }
+    .main-navigation ul {
+        flex-direction: column;
+    }
+    
+    .main-navigation li {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .slide-title {
+        font-size: 1.5rem;
+    }
 }
 
+@media (max-width: 576px) {
+    .site-title {
+        font-size: 1.5rem;
+    }
+    
+    .slide-content {
+        padding: 15px;
+    }
+}

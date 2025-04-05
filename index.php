@@ -1,204 +1,304 @@
 <?php
-session_start();
+/**
+ * मुख्य टेम्पलेट फाइल
+ */
+
+get_header();
+
 ?>
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ग्राम पंचायत चिखली</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
-    <style>
-        :root {
-            --primary-color: #FF9933;
-            --secondary-color: #138808;
-            --accent-color: #000080;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-        }
-
-        .header {
-            background: #f8bb14;
-            padding: 1rem 0;
-            border-bottom: 3px solid var(--primary-color);
-        }
-
-        .nav {
-            background: var(--accent-color);
-            padding: 10px 0;
-        }
-
-        .nav-menu {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .nav-menu li a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        .nav-menu li a:hover {
-            background: var(--primary-color);
-        }
-
-        .swiper {
-            width: 100%;
-            height: 400px;
-        }
-
-        .swiper-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .footer {
-            background: var(--accent-color);
-            color: white;
-            padding: 2rem 0;
-            margin-top: 2rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-    </style>
-</head>
-<body>
-    <header class="header">
-        <div class="container d-flex align-items-center justify-content-between">
-            <img src="attached_assets/image_1743684718040.png" alt="सरकारी लोगो" height="80">
-            <div class="text-center">
-                <h1 class="mb-0">ग्राम पंचायत चिखली</h1>
-                <p class="mb-0">जिला गडचिरोली, महाराष्ट्र</p>
-            </div>
-            <img src="attached_assets/image_1743698068343.png" alt="G20 लोगो" height="80">
-        </div>
-    </header>
-
-    <nav class="nav">
-        <div class="container">
-            <ul class="nav-menu">
-                <li><a href="index.php">होम</a></li>
-                <li><a href="schemes.php">योजनाएं</a></li>
-                <li><a href="gallery.php">फोटो गैलरी</a></li>
-                <li><a href="housetax.php">घरटैक्स/पाणी टैक्स</a></li>
-                <li><a href="complaint.php">शिकायत</a></li>
-                <li><a href="admin/login.php">प्रशासकीय लॉगिन</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <div class="swiper my-4">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <img src="attached_assets/image_1743684718040.png" alt="स्लाइड 1">
-            </div>
-            <div class="swiper-slide">
-                <img src="attached_assets/image_1743698068343.png" alt="स्लाइड 2">
+<main id="primary" class="site-main">
+    <?php if (is_front_page()) : ?>
+        <?php if (get_theme_mod('enable_slider', true)) : ?>
+        <!-- होम पेज स्लाइडर -->
+        <div class="home-slider">
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <?php
+                    $slider_count = 0;
+                    for ($i = 1; $i <= 10; $i++) {
+                        $slide_image = get_theme_mod('slider_image_' . $i, '');
+                        $slide_title = get_theme_mod('slider_title_' . $i, '');
+                        
+                        if (!empty($slide_image)) {
+                            $slider_count++;
+                            ?>
+                            <div class="swiper-slide" style="background-image: url('<?php echo esc_url($slide_image); ?>');">
+                                <?php if (!empty($slide_title)) : ?>
+                                <div class="slide-content">
+                                    <h2 class="slide-title"><?php echo esc_html($slide_title); ?></h2>
+                                </div>
+                                <?php endif; ?>
+                            </div>
+                            <?php
+                        }
+                    }
+                    
+                    // अगर कोई स्लाइड नहीं मिलता है तो डिफॉल्ट एक स्लाइड दिखाएं
+                    if ($slider_count == 0) {
+                        ?>
+                        <div class="swiper-slide" style="background-color: #007bff;">
+                            <div class="slide-content">
+                                <h2 class="slide-title">ग्राम पंचायत चिखली में आपका स्वागत है</h2>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
             </div>
         </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-    </div>
-
-    <main class="container my-4">
-        <section class="welcome-section text-center mb-5">
-            <h2>ग्राम पंचायत चिखली में आपका स्वागत है</h2>
-            <p>हम अपने ग्रामवासियों को बेहतर सेवाएं प्रदान करने के लिए प्रतिबद्ध हैं।</p>
-        </section>
-
-        <section class="services-grid">
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card text-center h-100">
-                        <div class="card-body">
-                            <i class="fas fa-home fa-3x mb-3 text-primary"></i>
-                            <h3>घर टैक्स</h3>
-                            <p>ऑनलाइन घर टैक्स जमा करें</p>
-                            <a href="housetax.php" class="btn btn-primary">अधिक जानें</a>
+        <?php endif; ?>
+        
+        <?php if (get_theme_mod('enable_notices', true)) : ?>
+        <!-- नोटिस टिकर -->
+        <div class="notice-ticker">
+            <div class="ticker-container">
+                <div class="ticker-content">
+                    <?php
+                    $notice_count = 0;
+                    for ($i = 1; $i <= 5; $i++) {
+                        $notice_text = get_theme_mod('notice_text_' . $i, '');
+                        if (!empty($notice_text)) {
+                            $notice_count++;
+                            echo '<div class="ticker-item"><i class="fas fa-bullhorn"></i> ' . esc_html($notice_text) . '</div>';
+                        }
+                    }
+                    
+                    // अगर कोई नोटिस नहीं मिलता है तो डिफॉल्ट नोटिस दिखाएं
+                    if ($notice_count == 0) {
+                        echo '<div class="ticker-item"><i class="fas fa-bullhorn"></i> मासिक ग्रामसभा हर महीने की 15 तारीख को आयोजित की जाती है।</div>';
+                        echo '<div class="ticker-item"><i class="fas fa-bullhorn"></i> टैक्स भुगतान के लिए ऑनलाइन सुविधा उपलब्ध है।</div>';
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+        
+        <!-- सेवाएं सेक्शन -->
+        <section class="services-section section-padding">
+            <div class="container">
+                <h2 class="section-title">हमारी सेवाएं</h2>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </div>
+                            <h3>टैक्स भुगतान</h3>
+                            <p>ऑनलाइन घर टैक्स और पानी टैक्स का भुगतान करें।</p>
+                            <a href="<?php echo esc_url(home_url('/housetax')); ?>" class="btn btn-primary mt-3">भुगतान करें</a>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card text-center h-100">
-                        <div class="card-body">
-                            <i class="fas fa-tint fa-3x mb-3 text-primary"></i>
-                            <h3>पानी बिल</h3>
-                            <p>पानी का बिल ऑनलाइन जमा करें</p>
-                            <a href="housetax.php" class="btn btn-primary">अधिक जानें</a>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <h3>शिकायत दर्ज करें</h3>
+                            <p>अपनी शिकायत ऑनलाइन दर्ज करें और उसकी स्थिति ट्रैक करें।</p>
+                            <a href="<?php echo esc_url(home_url('/complaint')); ?>" class="btn btn-primary mt-3">शिकायत दर्ज करें</a>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card text-center h-100">
-                        <div class="card-body">
-                            <i class="fas fa-comments fa-3x mb-3 text-primary"></i>
-                            <h3>शिकायत</h3>
-                            <p>अपनी शिकायत दर्ज करें</p>
-                            <a href="complaint.php" class="btn btn-primary">शिकायत दर्ज करें</a>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h3>सरकारी योजनाएं</h3>
+                            <p>विभिन्न सरकारी योजनाओं के बारे में जानकारी प्राप्त करें।</p>
+                            <a href="<?php echo esc_url(home_url('/schemes')); ?>" class="btn btn-primary mt-3">और जानें</a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container footer-content">
-            <div class="footer-section">
-                <h3>संपर्क करें</h3>
-                <p><i class="fas fa-map-marker-alt"></i> ग्राम पंचायत कार्यालय, चिखली</p>
-                <p><i class="fas fa-phone"></i> 07133-245678</p>
-                <p><i class="fas fa-envelope"></i> gpchikhali66@gmail.com</p>
-            </div>
-            <div class="footer-section">
-                <h3>महत्वपूर्ण लिंक्स</h3>
-                <p><a href="schemes.php" class="text-white">सरकारी योजनाएं</a></p>
-                <p><a href="gallery.php" class="text-white">फोटो गैलरी</a></p>
-                <p><a href="complaint.php" class="text-white">शिकायत</a></p>
-            </div>
-            <div class="footer-section">
-                <h3>नक्शे पर स्थान</h3>
-                <div class="google-map">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3721.4858773124993!2d79.85646007424365!3d20.33175447958868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd278d4a555555%3A0x3b11c6f5c60ea4a2!2sGram%20Panchayat%20Office%20Chikhali!5e0!3m2!1sen!2sin!4v1689871234567!5m2!1sen!2sin" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        
+        <!-- पंचायत समिति सेक्शन -->
+        <section class="committee-section section-padding bg-light">
+            <div class="container">
+                <h2 class="section-title">पंचायत समिति</h2>
+                <div class="row">
+                    <?php
+                    $member_count = 0;
+                    for ($i = 1; $i <= 8; $i++) {
+                        $member_name = get_theme_mod('committee_member_name_' . $i, '');
+                        $member_position = get_theme_mod('committee_member_position_' . $i, '');
+                        $member_photo = get_theme_mod('committee_member_photo_' . $i, '');
+                        $member_mobile = get_theme_mod('committee_member_mobile_' . $i, '');
+                        
+                        if (!empty($member_name)) {
+                            $member_count++;
+                            ?>
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="member-card text-center">
+                                    <div class="member-avatar">
+                                        <?php if (!empty($member_photo)) : ?>
+                                            <img src="<?php echo esc_url($member_photo); ?>" alt="<?php echo esc_attr($member_name); ?>">
+                                        <?php else : ?>
+                                            <svg width="150" height="150" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="75" cy="75" r="75" fill="#e9ecef"/>
+                                                <circle cx="75" cy="60" r="30" fill="#adb5bd"/>
+                                                <path d="M75,100 C45,100 35,120 35,135 L115,135 C115,120 105,100 75,100 Z" fill="#adb5bd"/>
+                                            </svg>
+                                        <?php endif; ?>
+                                    </div>
+                                    <h4><?php echo esc_html($member_name); ?></h4>
+                                    <?php if (!empty($member_position)) : ?>
+                                        <p class="text-primary"><?php echo esc_html($member_position); ?></p>
+                                    <?php endif; ?>
+                                    <?php if (!empty($member_mobile)) : ?>
+                                        <p><i class="fas fa-phone"></i> <?php echo esc_html($member_mobile); ?></p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                    
+                    // अगर कोई सदस्य नहीं है तो संदेश दिखाएं
+                    if ($member_count == 0) {
+                        echo '<div class="col-12 text-center"><p>समिति सदस्यों की जानकारी जल्द ही अपडेट की जाएगी।</p></div>';
+                    }
+                    ?>
                 </div>
             </div>
+        </section>
+        
+        <!-- ग्राम पंचायत कमेटी सेक्शन -->
+        <section class="gp-committee-section section-padding">
+            <div class="container">
+                <h2 class="section-title">ग्राम पंचायत कमेटी</h2>
+                <div class="row">
+                    <?php
+                    $gp_member_count = 0;
+                    for ($i = 1; $i <= 10; $i++) {
+                        $member_name = get_theme_mod('gp_committee_member_name_' . $i, '');
+                        $member_position = get_theme_mod('gp_committee_member_position_' . $i, '');
+                        $member_photo = get_theme_mod('gp_committee_member_photo_' . $i, '');
+                        $member_mobile = get_theme_mod('gp_committee_member_mobile_' . $i, '');
+                        
+                        if (!empty($member_name)) {
+                            $gp_member_count++;
+                            ?>
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="member-card text-center">
+                                    <div class="member-avatar">
+                                        <?php if (!empty($member_photo)) : ?>
+                                            <img src="<?php echo esc_url($member_photo); ?>" alt="<?php echo esc_attr($member_name); ?>">
+                                        <?php else : ?>
+                                            <svg width="150" height="150" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="75" cy="75" r="75" fill="#e9ecef"/>
+                                                <circle cx="75" cy="60" r="30" fill="#adb5bd"/>
+                                                <path d="M75,100 C45,100 35,120 35,135 L115,135 C115,120 105,100 75,100 Z" fill="#adb5bd"/>
+                                            </svg>
+                                        <?php endif; ?>
+                                    </div>
+                                    <h4><?php echo esc_html($member_name); ?></h4>
+                                    <?php if (!empty($member_position)) : ?>
+                                        <p class="text-primary"><?php echo esc_html($member_position); ?></p>
+                                    <?php endif; ?>
+                                    <?php if (!empty($member_mobile)) : ?>
+                                        <p><i class="fas fa-phone"></i> <?php echo esc_html($member_mobile); ?></p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                    
+                    // अगर कोई सदस्य नहीं है तो संदेश दिखाएं
+                    if ($gp_member_count == 0) {
+                        echo '<div class="col-12 text-center"><p>कमेटी सदस्यों की जानकारी जल्द ही अपडेट की जाएगी।</p></div>';
+                    }
+                    ?>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ग्राम पंचायत कर्मचारी सेक्शन -->
+        <section class="employees-section section-padding bg-light">
+            <div class="container">
+                <h2 class="section-title">ग्राम पंचायत कर्मचारी</h2>
+                <div class="row">
+                    <?php
+                    $employee_count = 0;
+                    for ($i = 1; $i <= 9; $i++) {
+                        $employee_name = get_theme_mod('employee_name_' . $i, '');
+                        $employee_position = get_theme_mod('employee_position_' . $i, '');
+                        $employee_photo = get_theme_mod('employee_photo_' . $i, '');
+                        $employee_mobile = get_theme_mod('employee_mobile_' . $i, '');
+                        
+                        if (!empty($employee_name)) {
+                            $employee_count++;
+                            ?>
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="member-card text-center">
+                                    <div class="member-avatar">
+                                        <?php if (!empty($employee_photo)) : ?>
+                                            <img src="<?php echo esc_url($employee_photo); ?>" alt="<?php echo esc_attr($employee_name); ?>">
+                                        <?php else : ?>
+                                            <svg width="150" height="150" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="75" cy="75" r="75" fill="#e9ecef"/>
+                                                <circle cx="75" cy="60" r="30" fill="#adb5bd"/>
+                                                <path d="M75,100 C45,100 35,120 35,135 L115,135 C115,120 105,100 75,100 Z" fill="#adb5bd"/>
+                                            </svg>
+                                        <?php endif; ?>
+                                    </div>
+                                    <h4><?php echo esc_html($employee_name); ?></h4>
+                                    <?php if (!empty($employee_position)) : ?>
+                                        <p class="text-primary"><?php echo esc_html($employee_position); ?></p>
+                                    <?php endif; ?>
+                                    <?php if (!empty($employee_mobile)) : ?>
+                                        <p><i class="fas fa-phone"></i> <?php echo esc_html($employee_mobile); ?></p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                    
+                    // अगर कोई कर्मचारी नहीं है तो संदेश दिखाएं
+                    if ($employee_count == 0) {
+                        echo '<div class="col-12 text-center"><p>कर्मचारियों की जानकारी जल्द ही अपडेट की जाएगी।</p></div>';
+                    }
+                    ?>
+                </div>
+            </div>
+        </section>
+        
+    <?php else : ?>
+        <!-- पोस्ट या पेज कंटेंट दिखाएं -->
+        <div class="container section-padding">
+            <?php
+            if (have_posts()) :
+                while (have_posts()) :
+                    the_post();
+                    ?>
+                    <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+                        <header class="entry-header">
+                            <?php the_title('<h1 class="entry-title">', '</h1>'); ?>
+                        </header>
+                        <div class="entry-content">
+                            <?php the_content(); ?>
+                        </div>
+                    </article>
+                    <?php
+                endwhile;
+                
+                the_posts_navigation();
+            else :
+                ?>
+                <p><?php esc_html_e('कोई पोस्ट नहीं मिली।', 'grampanchayat'); ?></p>
+                <?php
+            endif;
+            ?>
         </div>
-    </footer>
+    <?php endif; ?>
+</main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-    <script>
-        const swiper = new Swiper('.swiper', {
-            loop: true,
-            pagination: {
-                el: '.swiper-pagination',
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            autoplay: {
-                delay: 3000,
-            },
-        });
-    </script>
-</body>
-</html>
+<?php
+get_footer();

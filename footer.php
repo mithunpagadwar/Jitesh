@@ -1,13 +1,61 @@
-<?php if(is_active_sidebar('footer-widgets')): ?>
-                <div class="footer-column">
-                    <?php dynamic_sidebar('footer-widgets'); ?>
-                </div>
-            <?php endif; ?>
+<?php
+/**
+ * फुटर टेम्पलेट
+ */
+?>
 
-            <div class="footer-column">
-                <h3>नक्शे पर स्थान</h3>
-                <div class="google-map">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3721.4858773124993!2d79.85646007424365!3d20.33175447958868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd278d4a555555%3A0x3b11c6f5c60ea4a2!2sGram%20Panchayat%20Office%20Chikhali!5e0!3m2!1sen!2sin!4v1689871234567!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+<footer class="site-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-widget">
+                    <h4>ग्राम पंचायत चिखली</h4>
+                    <p><?php echo get_theme_mod('contact_address', 'ग्राम पंचायत चिखली, तहसील - , जिला - '); ?></p>
+                    <p><i class="fas fa-phone"></i> <?php echo get_theme_mod('contact_phone', '0123456789'); ?></p>
+                    <p><i class="fas fa-envelope"></i> <?php echo get_theme_mod('contact_email', 'gpchikhali66@gmail.com'); ?></p>
                 </div>
             </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-widget">
+                    <h4>महत्वपूर्ण लिंक्स</h4>
+                    <?php
+                    wp_nav_menu(array(
+                        'theme_location' => 'footer',
+                        'depth'          => 1,
+                        'fallback_cb'    => function() {
+                            echo '<ul>';
+                            echo '<li><a href="' . esc_url(home_url('/')) . '">होम</a></li>';
+                            echo '<li><a href="' . esc_url(home_url('/schemes')) . '">सरकारी योजनाएं</a></li>';
+                            echo '<li><a href="' . esc_url(home_url('/housetax')) . '">टैक्स भुगतान</a></li>';
+                            echo '<li><a href="' . esc_url(home_url('/complaint')) . '">शिकायत दर्ज करें</a></li>';
+                            echo '<li><a href="' . esc_url(home_url('/gallery')) . '">गैलरी</a></li>';
+                            echo '</ul>';
+                        }
+                    ));
+                    ?>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <?php if (is_active_sidebar('footer-3')) : ?>
+                    <?php dynamic_sidebar('footer-3'); ?>
+                <?php else : ?>
+                    <div class="footer-widget">
+                        <h4>सूचना</h4>
+                        <ul>
+                            <li><i class="fas fa-arrow-right"></i> मासिक ग्रामसभा हर महीने की 15 तारीख को आयोजित की जाती है।</li>
+                            <li><i class="fas fa-arrow-right"></i> टैक्स भुगतान के लिए ऑनलाइन सुविधा उपलब्ध है।</li>
+                            <li><i class="fas fa-arrow-right"></i> अपनी शिकायतें ऑनलाइन दर्ज करें और उनकी स्थिति ट्रैक करें।</li>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
+        <div class="copyright">
+            <p>© <?php echo date('Y'); ?> ग्राम पंचायत चिखली। सर्वाधिकार सुरक्षित।</p>
+        </div>
+    </div>
+</footer>
+
+<?php wp_footer(); ?>
+</body>
+</html>
