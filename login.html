@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+
+{% block title %}प्रशासकीय लॉगिन - ग्राम पंचायत चिखली{% endblock %}
+
+{% block head_extra %}
+<style>
+    .login-container {
+        max-width: 450px;
+        margin: 0 auto;
+    }
+    .login-card {
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .login-header {
+        background-color: #f8bb14;
+        padding: 20px;
+        text-align: center;
+    }
+    .login-form {
+        padding: 30px;
+    }
+    .login-icon {
+        font-size: 60px;
+        color: #333;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="login-container">
+        <div class="login-card card">
+            <div class="login-header">
+                <i class="fas fa-user-shield login-icon"></i>
+                <h2 class="mt-3 mb-0">प्रशासकीय लॉगिन</h2>
+            </div>
+            <div class="login-form">
+                {% if error %}
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i> {{ error }}
+                </div>
+                {% endif %}
+                
+                <form method="POST" action="{{ url_for('admin_login') }}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">यूजरनेम:</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="अपना यूजरनेम दर्ज करें" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="password" class="form-label">पासवर्ड:</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="अपना पासवर्ड दर्ज करें" required>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">लॉगिन करें</button>
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">रद्द करें</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="alert alert-info mt-4">
+            <i class="fas fa-info-circle"></i> यदि आप अपना पासवर्ड भूल गए हैं, तो कृपया ग्राम पंचायत कार्यालय से संपर्क करें।
+        </div>
+    </div>
+</div>
+{% endblock %}

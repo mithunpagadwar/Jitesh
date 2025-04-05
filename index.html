@@ -1,0 +1,370 @@
+{% extends 'layout.html' %}
+
+{% block title %}ग्राम पंचायत चिखली{% endblock %}
+
+{% block head_extra %}
+<style>
+    /* टिकर (रोटेटिंग टेक्स्ट) स्टाइल */
+    .notice-ticker {
+        overflow: hidden;
+        position: relative;
+        border-top: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .ticker-container {
+        overflow: hidden;
+        width: 100%;
+    }
+    
+    .ticker-content {
+        white-space: nowrap;
+        display: inline-block;
+        animation: ticker 30s linear infinite;
+    }
+    
+    .ticker-item {
+        display: inline-block;
+        padding: 0 30px;
+        color: #d32f2f;
+    }
+    
+    @keyframes ticker {
+        0% {
+            transform: translateX(100%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+    
+    /* सदस्य कार्ड स्टाइल */
+    .member-card {
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        background-color: #fff;
+        transition: transform 0.3s ease;
+    }
+    
+    .member-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .member-avatar {
+        display: inline-block;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="swiper my-4">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+                <rect width="800" height="400" fill="#f8bb14"/>
+                <text x="400" y="200" font-family="Arial" font-size="30" text-anchor="middle" fill="#000">ग्राम पंचायत चिखली</text>
+            </svg>
+        </div>
+        <div class="swiper-slide">
+            <svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+                <rect width="800" height="400" fill="#138808"/>
+                <text x="400" y="200" font-family="Arial" font-size="30" text-anchor="middle" fill="#fff">स्वच्छ गाँव - सुंदर गाँव</text>
+            </svg>
+        </div>
+        <div class="swiper-slide">
+            <svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+                <rect width="800" height="400" fill="#FF9933"/>
+                <text x="400" y="200" font-family="Arial" font-size="30" text-anchor="middle" fill="#fff">डिजिटल इंडिया - डिजिटल गाँव</text>
+            </svg>
+        </div>
+        <div class="swiper-slide">
+            <svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+                <rect width="800" height="400" fill="#4CAF50"/>
+                <text x="400" y="200" font-family="Arial" font-size="30" text-anchor="middle" fill="#fff">उज्ज्वल भविष्य - ग्रामीण विकास</text>
+            </svg>
+        </div>
+        <div class="swiper-slide">
+            <svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+                <rect width="800" height="400" fill="#2196F3"/>
+                <text x="400" y="200" font-family="Arial" font-size="30" text-anchor="middle" fill="#fff">जल संरक्षण - जीवन संरक्षण</text>
+            </svg>
+        </div>
+        <div class="swiper-slide">
+            <svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+                <rect width="800" height="400" fill="#9C27B0"/>
+                <text x="400" y="200" font-family="Arial" font-size="30" text-anchor="middle" fill="#fff">शिक्षित गाँव - विकसित गाँव</text>
+            </svg>
+        </div>
+        <div class="swiper-slide">
+            <svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+                <rect width="800" height="400" fill="#F44336"/>
+                <text x="400" y="200" font-family="Arial" font-size="30" text-anchor="middle" fill="#fff">स्वस्थ ग्रामीण - स्वस्थ भारत</text>
+            </svg>
+        </div>
+        <div class="swiper-slide">
+            <svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+                <rect width="800" height="400" fill="#795548"/>
+                <text x="400" y="200" font-family="Arial" font-size="30" text-anchor="middle" fill="#fff">जैविक खेती - स्वादिष्ट फसल</text>
+            </svg>
+        </div>
+        <div class="swiper-slide">
+            <svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+                <rect width="800" height="400" fill="#607D8B"/>
+                <text x="400" y="200" font-family="Arial" font-size="30" text-anchor="middle" fill="#fff">एक कदम स्वच्छता की ओर</text>
+            </svg>
+        </div>
+        <div class="swiper-slide">
+            <svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+                <rect width="800" height="400" fill="#FF5722"/>
+                <text x="400" y="200" font-family="Arial" font-size="30" text-anchor="middle" fill="#fff">समृद्ध किसान - समृद्ध गाँव</text>
+            </svg>
+        </div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+</div>
+
+<!-- रोटेटिंग सूचनाएं -->
+<div class="notice-ticker py-2 mb-4 bg-light">
+    <div class="container">
+        <div class="d-flex align-items-center">
+            <div class="me-3">
+                <i class="fas fa-bullhorn text-danger"></i> <strong>सूचनाएँ:</strong>
+            </div>
+            <div class="ticker-container">
+                <div class="ticker-content">
+                    <span class="ticker-item">अगली ग्रामसभा दिनांक 15 अप्रैल 2025 को सुबह 10:00 बजे आयोजित की जाएगी</span>
+                    <span class="ticker-item">मासिक सभा दिनांक 25 अप्रैल 2025 को दोपहर 2:00 बजे आयोजित की जाएगी</span>
+                    <span class="ticker-item">वार्षिक सांस्कृतिक कार्यक्रम दिनांक 10 मई 2025 को आयोजित किया जाएगा</span>
+                    <span class="ticker-item">नए जल संरक्षण प्रोजेक्ट की शुरुआत दिनांक 5 जून 2025 को की जाएगी</span>
+                    <span class="ticker-item">सभी ग्रामवासियों से अनुरोध है कि वे अपना घर टैक्स समय पर जमा करें</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-4">
+    <section class="welcome-section text-center mb-5">
+        <h2>ग्राम पंचायत चिखली में आपका स्वागत है</h2>
+        <p>हम अपने ग्रामवासियों को बेहतर सेवाएं प्रदान करने के लिए प्रतिबद्ध हैं।</p>
+    </section>
+
+    <!-- पंचायत समिति सेक्शन -->
+    <section class="committee-section mb-5">
+        <h2 class="text-center mb-4">पंचायत समिति</h2>
+        <div class="row g-4 justify-content-center">
+            {% for i in range(1, 9) %}
+            <div class="col-md-3 col-sm-6">
+                <div class="member-card text-center">
+                    <div class="member-avatar mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150">
+                            <circle cx="75" cy="75" r="70" fill="#4CAF50" />
+                            <circle cx="75" cy="60" r="25" fill="#fff" />
+                            <path d="M75,90 C50,90 40,110 40,125 L110,125 C110,110 100,90 75,90 Z" fill="#fff" />
+                            <text x="75" y="140" font-family="Arial" font-size="12" text-anchor="middle" fill="#fff">सदस्य {{ i }}</text>
+                        </svg>
+                    </div>
+                    <h4>नाम सदस्य {{ i }}</h4>
+                    <p class="mb-1">पद: समिति सदस्य</p>
+                    <p class="mb-0">मोबाइल: 98765{{ i }}{{ i }}{{ i }}{{ i }}{{ i }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- ग्राम पंचायत कमेटी सेक्शन -->
+    <section class="committee-section mb-5">
+        <h2 class="text-center mb-4">ग्राम पंचायत कमेटी</h2>
+        <div class="row g-4 justify-content-center">
+            {% for i in range(1, 11) %}
+            <div class="col-md-3 col-sm-6">
+                <div class="member-card text-center">
+                    <div class="member-avatar mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150">
+                            <circle cx="75" cy="75" r="70" fill="#2196F3" />
+                            <circle cx="75" cy="60" r="25" fill="#fff" />
+                            <path d="M75,90 C50,90 40,110 40,125 L110,125 C110,110 100,90 75,90 Z" fill="#fff" />
+                            <text x="75" y="140" font-family="Arial" font-size="12" text-anchor="middle" fill="#fff">सदस्य {{ i }}</text>
+                        </svg>
+                    </div>
+                    <h4>नाम सदस्य {{ i }}</h4>
+                    <p class="mb-1">पद: ग्राम पंचायत सदस्य</p>
+                    <p class="mb-0">मोबाइल: 87654{{ i }}{{ i }}{{ i }}{{ i }}{{ i }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- ग्राम पंचायत कर्मचारी सेक्शन -->
+    <section class="committee-section mb-5">
+        <h2 class="text-center mb-4">ग्राम पंचायत कर्मचारी</h2>
+        <div class="row g-4 justify-content-center">
+            {% for i in range(1, 10) %}
+            <div class="col-md-3 col-sm-6">
+                <div class="member-card text-center">
+                    <div class="member-avatar mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150">
+                            <circle cx="75" cy="75" r="70" fill="#FF9800" />
+                            <circle cx="75" cy="60" r="25" fill="#fff" />
+                            <path d="M75,90 C50,90 40,110 40,125 L110,125 C110,110 100,90 75,90 Z" fill="#fff" />
+                            <text x="75" y="140" font-family="Arial" font-size="12" text-anchor="middle" fill="#fff">कर्मचारी {{ i }}</text>
+                        </svg>
+                    </div>
+                    <h4>नाम कर्मचारी {{ i }}</h4>
+                    <p class="mb-1">पद: {{ ["सचिव", "ग्राम सेवक", "रोजगार सेवक", "पाणी पुरवठा", "स्वच्छता निरीक्षक", "शिक्षा अधिकारी", "कृषि सहायक", "पशु चिकित्सक", "लेखाकार"][i-1] }}</p>
+                    <p class="mb-0">मोबाइल: 76543{{ i }}{{ i }}{{ i }}{{ i }}{{ i }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="services-grid">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-home fa-3x mb-3 text-primary"></i>
+                        <h3>घर टैक्स</h3>
+                        <p>ऑनलाइन घर टैक्स जमा करें</p>
+                        <a href="{{ url_for('housetax') }}" class="btn btn-primary">अधिक जानें</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-tint fa-3x mb-3 text-primary"></i>
+                        <h3>पानी बिल</h3>
+                        <p>पानी का बिल ऑनलाइन जमा करें</p>
+                        <a href="{{ url_for('housetax') }}" class="btn btn-primary">अधिक जानें</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-comments fa-3x mb-3 text-primary"></i>
+                        <h3>शिकायत</h3>
+                        <p>अपनी शिकायत दर्ज करें</p>
+                        <a href="{{ url_for('complaint') }}" class="btn btn-primary">शिकायत दर्ज करें</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="schemes-section mt-5">
+        <h2 class="text-center mb-4">प्रमुख सरकारी योजनाएं</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-landmark fa-3x mb-3 text-warning"></i>
+                        <h4>प्रधानमंत्री आवास योजना</h4>
+                        <p>सभी के लिए घर सुनिश्चित करने वाली योजना</p>
+                        <a href="{{ url_for('schemes') }}#pmay" class="btn btn-outline-primary">अधिक जानकारी</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-hand-holding-medical fa-3x mb-3 text-danger"></i>
+                        <h4>आयुष्मान भारत</h4>
+                        <p>स्वास्थ्य बीमा और सेवाएं प्रदान करने की योजना</p>
+                        <a href="{{ url_for('schemes') }}#ayushman" class="btn btn-outline-primary">अधिक जानकारी</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-tractor fa-3x mb-3 text-success"></i>
+                        <h4>पीएम किसान</h4>
+                        <p>किसानों के लिए आर्थिक सहायता योजना</p>
+                        <a href="{{ url_for('schemes') }}#pmkisan" class="btn btn-outline-primary">अधिक जानकारी</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <a href="{{ url_for('schemes') }}" class="btn btn-primary">सभी योजनाएं देखें</a>
+        </div>
+    </section>
+
+    <section class="gallery-preview mt-5">
+        <h2 class="text-center mb-4">गैलरी झलक</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+                        <rect width="400" height="300" fill="#f0f0f0"/>
+                        <text x="200" y="150" font-family="Arial" font-size="18" text-anchor="middle" fill="#555">ग्रामसभा फोटो</text>
+                    </svg>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">ग्रामसभा</h5>
+                        <a href="{{ url_for('gallery') }}#gram-sabha" class="btn btn-sm btn-outline-primary">और देखें</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+                        <rect width="400" height="300" fill="#f0f0f0"/>
+                        <text x="200" y="150" font-family="Arial" font-size="18" text-anchor="middle" fill="#555">मासिक सभा फोटो</text>
+                    </svg>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">मासिक सभा</h5>
+                        <a href="{{ url_for('gallery') }}#monthly-meeting" class="btn btn-sm btn-outline-primary">और देखें</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+                        <rect width="400" height="300" fill="#f0f0f0"/>
+                        <text x="200" y="150" font-family="Arial" font-size="18" text-anchor="middle" fill="#555">सांस्कृतिक कार्यक्रम फोटो</text>
+                    </svg>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">सांस्कृतिक कार्यक्रम</h5>
+                        <a href="{{ url_for('gallery') }}#cultural" class="btn btn-sm btn-outline-primary">और देखें</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <a href="{{ url_for('gallery') }}" class="btn btn-primary">पूरी गैलरी देखें</a>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const swiper = new Swiper('.swiper', {
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            autoplay: {
+                delay: 5000,
+            },
+        });
+    });
+</script>
+{% endblock %}

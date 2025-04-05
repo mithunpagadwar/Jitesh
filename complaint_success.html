@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block title %}शिकायत सफलतापूर्वक दर्ज - ग्राम पंचायत चिखली{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="card">
+                <div class="card-body p-5">
+                    <div class="mb-4">
+                        <i class="fas fa-check-circle text-success fa-5x"></i>
+                    </div>
+                    <h2 class="card-title mb-4">आपकी शिकायत सफलतापूर्वक दर्ज कर ली गई है</h2>
+                    <p class="card-text mb-4">अपनी शिकायत की स्थिति जांचने के लिए नीचे दिए गए शिकायत क्रमांक को सहेज कर रखें।</p>
+                    
+                    <div class="d-flex justify-content-center mb-4">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <h3 class="mb-0">{{ complaint_id }}</h3>
+                        </div>
+                    </div>
+                    
+                    <p>आपकी शिकायत पर जल्द से जल्द कार्रवाई की जाएगी। धन्यवाद!</p>
+                    
+                    <div class="d-grid gap-3 col-md-8 mx-auto mt-4">
+                        <a href="{{ url_for('check_complaint') }}" class="btn btn-primary">
+                            <i class="fas fa-search me-2"></i> शिकायत स्थिति जांचें
+                        </a>
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-home me-2"></i> होम पेज पर जाएं
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-info mt-4">
+                <i class="fas fa-info-circle me-2"></i> शिकायत की स्थिति की जानकारी आपके दिए गए मोबाइल नंबर पर भी भेजी जाएगी।
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

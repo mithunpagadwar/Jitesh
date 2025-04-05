@@ -1,0 +1,120 @@
+{% extends 'layout.html' %}
+
+{% block title %}शिकायत दर्ज करें - ग्राम पंचायत चिखली{% endblock %}
+
+{% block head_extra %}
+<style>
+    .complaint-section {
+        background-color: #f8f9fa;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .complaint-options {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .complaint-option {
+        display: inline-block;
+        margin: 0 15px;
+        padding: 15px 25px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .complaint-option:hover {
+        transform: translateY(-5px);
+    }
+    .file-complaint {
+        background-color: #e9ecef;
+        color: #495057;
+    }
+    .check-complaint {
+        background-color: #e9ecef;
+        color: #495057;
+    }
+    .active-option {
+        background-color: #f8bb14;
+        color: #000;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h1 class="text-center mb-2">शिकायत प्रणाली</h1>
+    <p class="text-center mb-4">अपनी शिकायत दर्ज करें या अपनी शिकायत की स्थिति जांचें</p>
+
+    <div class="complaint-options">
+        <a href="{{ url_for('complaint') }}" class="complaint-option file-complaint active-option">
+            <i class="fas fa-edit"></i> शिकायत दर्ज करें
+        </a>
+        <a href="{{ url_for('check_complaint') }}" class="complaint-option check-complaint">
+            <i class="fas fa-search"></i> शिकायत स्थिति जांचें
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="complaint-section">
+                <h3 class="text-center mb-4">अपनी शिकायत दर्ज करें</h3>
+                
+                <form method="POST" action="{{ url_for('complaint') }}" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">आपका नाम:</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="अपना पूरा नाम दर्ज करें" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="mobile" class="form-label">मोबाइल नंबर:</label>
+                        <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="अपना 10 अंकों का मोबाइल नंबर दर्ज करें" pattern="[0-9]{10}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="complaint" class="form-label">शिकायत विवरण:</label>
+                        <textarea class="form-control" id="complaint" name="complaint" rows="5" placeholder="अपनी शिकायत का विस्तृत विवरण दर्ज करें" required></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="document" class="form-label">संबंधित दस्तावेज़ अपलोड करें (वैकल्पिक):</label>
+                        <input type="file" class="form-control" id="document" name="document">
+                        <div class="form-text">फाइल फॉर्मेट: PDF, JPG, PNG (अधिकतम 5MB)</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="photo" class="form-label">अपनी फोटो अपलोड करें (वैकल्पिक):</label>
+                        <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+                        <div class="form-text">फाइल फॉर्मेट: JPG, PNG (अधिकतम 2MB)</div>
+                        
+                        <div class="mt-2" id="photo-preview-container" style="display: none;">
+                            <p>फोटो प्रीव्यू:</p>
+                            <img id="photo-preview" src="#" alt="फोटो प्रीव्यू" style="max-width: 200px; max-height: 200px; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">शिकायत दर्ज करें</button>
+                    </div>
+                </form>
+                <script src="{{ url_for('static', filename='js/complaint.js') }}"></script>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">शिकायत दर्ज करने के लिए निर्देश</h5>
+                </div>
+                <div class="card-body">
+                    <ol>
+                        <li>अपना सही नाम और मोबाइल नंबर दर्ज करें।</li>
+                        <li>अपनी शिकायत का विस्तृत विवरण दें, जिसमें स्थान और समस्या का स्पष्ट उल्लेख हो।</li>
+                        <li>यदि संभव हो तो, समस्या से संबंधित फोटो या दस्तावेज़ अपलोड करें।</li>
+                        <li>शिकायत दर्ज होने के बाद आपको एक शिकायत क्रमांक मिलेगा, कृपया इसे संभालकर रखें।</li>
+                        <li>अपनी शिकायत की स्थिति जांचने के लिए 'शिकायत स्थिति जांचें' विकल्प का उपयोग करें।</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

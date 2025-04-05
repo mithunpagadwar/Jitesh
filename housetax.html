@@ -1,0 +1,250 @@
+{% extends 'layout.html' %}
+
+{% block title %}घरटैक्स/पाणी टैक्स - ग्राम पंचायत चिखली{% endblock %}
+
+{% block head_extra %}
+<style>
+    .tax-card {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+    }
+    .tax-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    .resident-avatar {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 15px;
+    }
+    .tax-details {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 15px;
+    }
+    .payment-options {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+    }
+    .tax-type-selector {
+        margin-bottom: 20px;
+    }
+    .resident-list-item {
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+    .resident-list-item:hover {
+        background-color: #f1f1f1;
+    }
+    .search-section {
+        margin-bottom: 30px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+    }
+    .qr-code {
+        max-width: 200px;
+        margin: 0 auto;
+    }
+    .payment-section {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h1 class="text-center mb-2">घरटैक्स व पाणी टैक्स भरणा</h1>
+    <p class="text-center mb-4">आपला घर कर व पाणी कर ऑनलाइन UPI द्वारे भरा</p>
+
+    {% if error %}
+    <div class="alert alert-danger text-center">{{ error }}</div>
+    {% endif %}
+
+    {% if not session.get('resident_logged_in') %}
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card search-section">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">निवासी माहिती शोधा</h3>
+                    <form method="POST" action="{{ url_for('housetax') }}">
+                        <div class="mb-3">
+                            <label for="loginId" class="form-label">निवासी क्रमांक किंवा मोबाईल नंबर टाका:</label>
+                            <input type="text" class="form-control form-control-lg" id="loginId" name="loginId" placeholder="उदा. 101 किंवा 9876543210" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">शोधा</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">टैक्स भरणा माहिती</h3>
+                </div>
+                <div class="card-body">
+                    <h4 class="text-center mb-4">कृपया टैक्स प्रकार निवडा</h4>
+                    
+                    <div class="tax-type-selector">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="taxType" id="houseTax" value="house" checked>
+                            <label class="form-check-label" for="houseTax">घर टैक्स</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="taxType" id="waterTax" value="water">
+                            <label class="form-check-label" for="waterTax">पाणी टैक्स</label>
+                        </div>
+                    </div>
+                    
+                    <div id="residentsList" class="list-group mb-4" style="max-height: 400px; overflow-y: auto;">
+                        <div class="mb-3">
+                        <input type="text" class="form-control" id="residentSearch" placeholder="नाम या क्रमांक से खोजें...">
+                    </div>
+                    
+                        {% for resident in residents %}
+                        <div class="list-group-item resident-list-item" data-id="{{ resident.id }}" data-name="{{ resident.name }}" data-house-tax="{{ resident.houseTax }}" data-water-tax="{{ resident.waterTax }}" data-avatar="{{ resident.avatar }}" data-address="{{ resident.address }}" data-mobile="{{ resident.mobile }}">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5>{{ resident.name }}</h5>
+                                    <p class="mb-0 text-muted">{{ resident.address }}</p>
+                                    <p class="mb-0 text-muted small">मोबाइल: {{ resident.mobile }}</p>
+                                </div>
+                                <span class="badge bg-primary rounded-pill">{{ resident.id }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    {% if total_residents > 1500 %}
+                    <div class="text-center mb-3">
+                        <p class="text-muted">{{ total_residents - 1500 }} अधिक निवासी</p>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary">लॉग आउट</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card" id="paymentCard" style="display: none;">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">पेमेंट विवरण</h3>
+                </div>
+                <div class="card-body text-center">
+                    <img src="" alt="प्रोफाइल फोटो" id="residentAvatar" class="resident-avatar rounded-circle border">
+                    <h4 id="residentName"></h4>
+                    <div class="tax-details">
+                        <div class="row">
+                            <div class="col-6 text-start">टैक्स प्रकार:</div>
+                            <div class="col-6 text-end"><strong id="taxTypeDisplay"></strong></div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6 text-start">क्रमांक:</div>
+                            <div class="col-6 text-end"><strong id="residentId"></strong></div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-6 text-start">देय राशि:</div>
+                            <div class="col-6 text-end"><strong>₹<span id="taxAmount"></span></strong></div>
+                        </div>
+                    </div>
+                    
+                    <!-- घर टैक्स भुगतान विवरण -->
+                    <div class="mt-4 payment-section" id="houseTaxPayment">
+                        <h5>घर टैक्स UPI द्वारे भुगतान करें</h5>
+                        <p class="text-muted mb-3">UPI ID: <span class="fw-bold">{{ upi_id }}</span></p>
+                        <div class="qr-code mb-3">
+                            <img src="" id="houseQrCodeImage" alt="घर टैक्स UPI QR Code" class="img-fluid">
+                        </div>
+                        <p class="text-muted small">स्कैन करके या अपने UPI ऐप से भुगतान करें</p>
+                    </div>
+                    
+                    <!-- पानी टैक्स भुगतान विवरण -->
+                    <div class="mt-4 payment-section" id="waterTaxPayment">
+                        <h5>पानी टैक्स UPI द्वारे भुगतान करें</h5>
+                        <p class="text-muted mb-3">UPI ID: <span class="fw-bold">{{ upi_id_2 }}</span></p>
+                        <div class="qr-code mb-3">
+                            <img src="" id="waterQrCodeImage" alt="पानी टैक्स UPI QR Code" class="img-fluid">
+                        </div>
+                        <p class="text-muted small">स्कैन करके या अपने UPI ऐप से भुगतान करें</p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-success mb-2" id="payHouseTaxBtn">
+                                <i class="fas fa-home me-2"></i> घर टैक्स भुगतान करें
+                            </button>
+                            <button class="btn btn-info text-white" id="payWaterTaxBtn">
+                                <i class="fas fa-tint me-2"></i> पाणी टैक्स भुगतान करें
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-info-circle"></i> भुगतान करने के बाद, आपको एक पावती नंबर मिलेगा जिसे आप भविष्य के संदर्भ के लिए सहेज सकते हैं।
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="row mt-5">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h3 class="mb-0">टैक्स माहिती</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h5>घर टैक्स</h5>
+                        <p>घर टैक्स वार्षिक असून तो ₹500 आहे. कृपया हा टैक्स वेळेत भरावा.</p>
+                    </div>
+                    <div class="mb-3">
+                        <h5>पाणी टैक्स</h5>
+                        <p>पाणी टैक्स वार्षिक असून तो ₹300 आहे. कृपया हा टैक्स वेळेत भरावा.</p>
+                    </div>
+                    <div class="alert alert-warning">
+                        <strong>महत्वाची सूचना:</strong> वेळेत टैक्स न भरल्यास दंड आकारण्यात येईल.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- भुगतान स्लिप मॉडल -->
+<div class="modal fade" id="paymentReceiptModal" tabindex="-1" aria-labelledby="paymentReceiptModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="paymentReceiptModalLabel">भुगतान स्लिप</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="receiptContent">
+                <!-- भुगतान स्लिप यहां प्रदर्शित होगा -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">बंद करें</button>
+                <button type="button" class="btn btn-primary" id="printReceiptBtn">प्रिंट करें</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/housetax.js') }}"></script>
+{% endblock %}

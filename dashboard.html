@@ -1,0 +1,207 @@
+{% extends 'layout.html' %}
+
+{% block title %}प्रशासकीय डैशबोर्ड - ग्राम पंचायत चिखली{% endblock %}
+
+{% block head_extra %}
+<style>
+    .dashboard-header {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+    }
+    .stats-card {
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    .stats-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .card-icon {
+        font-size: 36px;
+        margin-bottom: 15px;
+    }
+    .card-value {
+        font-size: 32px;
+        font-weight: bold;
+    }
+    .card-label {
+        color: #6c757d;
+        font-size: 14px;
+    }
+    .settings-section {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 30px;
+    }
+    .complaints-section {
+        margin-top: 30px;
+    }
+    .status-pending {
+        color: #fd7e14;
+    }
+    .status-processing {
+        color: #0d6efd;
+    }
+    .status-resolved {
+        color: #198754;
+    }
+    .status-rejected {
+        color: #dc3545;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="dashboard-header d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="mb-1">प्रशासकीय डैशबोर्ड</h1>
+            <p class="mb-0 text-muted">स्वागत है, {{ session.get('admin_username') }}</p>
+        </div>
+        <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-danger">
+            <i class="fas fa-sign-out-alt"></i> लॉगआउट
+        </a>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="stats-card text-center p-4">
+                <i class="fas fa-users card-icon text-primary"></i>
+                <div class="card-value">1000+</div>
+                <div class="card-label">कुल निवासी</div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="stats-card text-center p-4">
+                <i class="fas fa-comments card-icon text-warning"></i>
+                <div class="card-value">{{ complaints_count }}</div>
+                <div class="card-label">कुल शिकायतें</div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="stats-card text-center p-4">
+                <i class="fas fa-check-circle card-icon text-success"></i>
+                <div class="card-value">{{ complaints_resolved }}</div>
+                <div class="card-label">हल की गई शिकायतें</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPI Settings Section -->
+    <div class="settings-section">
+        <h3 class="mb-4">UPI सेटिंग्स</h3>
+        <form method="POST" action="{{ url_for('update_upi') }}">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">घर कर भुगतान के लिए UPI ID</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted small">वर्तमान UPI ID:</p>
+                            <p class="current-upi mb-3 fs-5">{{ upi_id }}</p>
+                            <div class="mb-3">
+                                <label for="upi_id" class="form-label">नई UPI ID:</label>
+                                <input type="text" class="form-control" id="upi_id" name="upi_id" value="{{ upi_id }}" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">पानी कर भुगतान के लिए UPI ID</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted small">वर्तमान UPI ID:</p>
+                            <p class="current-upi mb-3 fs-5">{{ upi_id_2 }}</p>
+                            <div class="mb-3">
+                                <label for="upi_id_2" class="form-label">नई UPI ID:</label>
+                                <input type="text" class="form-control" id="upi_id_2" name="upi_id_2" value="{{ upi_id_2 }}" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i> दोनों UPI ID अपडेट करें
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Recent Complaints Section -->
+    <div class="complaints-section">
+        <h3 class="mb-4">हाल की शिकायतें</h3>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>क्रमांक</th>
+                        <th>नाम</th>
+                        <th>मोबाइल</th>
+                        <th>दिनांक</th>
+                        <th>स्थिति</th>
+                        <th>कार्रवाई</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in recent_complaints %}
+                    <tr>
+                        <td>{{ complaint.id }}</td>
+                        <td>{{ complaint.name }}</td>
+                        <td>{{ complaint.mobile }}</td>
+                        <td>{{ complaint.created_at.strftime('%d/%m/%Y') }}</td>
+                        <td>
+                            {% if complaint.status == 'pending' %}
+                            <span class="status-pending"><i class="fas fa-clock"></i> लंबित</span>
+                            {% elif complaint.status == 'processing' %}
+                            <span class="status-processing"><i class="fas fa-spinner"></i> प्रक्रियाधीन</span>
+                            {% elif complaint.status == 'resolved' %}
+                            <span class="status-resolved"><i class="fas fa-check-circle"></i> समाधान हो गया</span>
+                            {% elif complaint.status == 'rejected' %}
+                            <span class="status-rejected"><i class="fas fa-times-circle"></i> अस्वीकृत</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('admin_complaint_detail', complaint_id=complaint.id) }}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-eye"></i> देखें
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="text-center mt-3">
+            <a href="#" class="btn btn-outline-primary">सभी शिकायतें देखें</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle complaint details view (placeholder for now)
+        const viewButtons = document.querySelectorAll('.view-complaint');
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const complaintId = this.getAttribute('data-id');
+                alert(`शिकायत विवरण के लिए पूरा मॉडल UI बनाया जाएगा - क्रमांक: ${complaintId}`);
+            });
+        });
+    });
+</script>
+{% endblock %}

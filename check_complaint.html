@@ -1,0 +1,175 @@
+{% extends 'layout.html' %}
+
+{% block title %}शिकायत स्थिति जांचें - ग्राम पंचायत चिखली{% endblock %}
+
+{% block head_extra %}
+<style>
+    .complaint-section {
+        background-color: #f8f9fa;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .complaint-options {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .complaint-option {
+        display: inline-block;
+        margin: 0 15px;
+        padding: 15px 25px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .complaint-option:hover {
+        transform: translateY(-5px);
+    }
+    .file-complaint {
+        background-color: #e9ecef;
+        color: #495057;
+    }
+    .check-complaint {
+        background-color: #e9ecef;
+        color: #495057;
+    }
+    .active-option {
+        background-color: #f8bb14;
+        color: #000;
+    }
+    .status-pending {
+        color: #fd7e14;
+    }
+    .status-processing {
+        color: #0d6efd;
+    }
+    .status-resolved {
+        color: #198754;
+    }
+    .status-rejected {
+        color: #dc3545;
+    }
+    .complaint-details {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h1 class="text-center mb-2">शिकायत प्रणाली</h1>
+    <p class="text-center mb-4">अपनी शिकायत दर्ज करें या अपनी शिकायत की स्थिति जांचें</p>
+
+    <div class="complaint-options">
+        <a href="{{ url_for('complaint') }}" class="complaint-option file-complaint">
+            <i class="fas fa-edit"></i> शिकायत दर्ज करें
+        </a>
+        <a href="{{ url_for('check_complaint') }}" class="complaint-option check-complaint active-option">
+            <i class="fas fa-search"></i> शिकायत स्थिति जांचें
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="complaint-section">
+                <h3 class="text-center mb-4">अपनी शिकायत की स्थिति जांचें</h3>
+                
+                <form method="POST" action="{{ url_for('check_complaint') }}">
+                    <div class="mb-3">
+                        <label for="complaint_id" class="form-label">शिकायत क्रमांक:</label>
+                        <input type="text" class="form-control" id="complaint_id" name="complaint_id" placeholder="अपना शिकायत क्रमांक दर्ज करें" required>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">शिकायत खोजें</button>
+                    </div>
+                </form>
+
+                {% if error %}
+                <div class="alert alert-danger mt-4">
+                    <i class="fas fa-exclamation-triangle"></i> {{ error }}
+                </div>
+                {% endif %}
+
+                {% if complaint %}
+                <div class="complaint-details mt-4">
+                    <h4 class="mb-3">शिकायत विवरण</h4>
+                    
+                    <div class="row mb-2">
+                        <div class="col-md-4 fw-bold">शिकायत क्रमांक:</div>
+                        <div class="col-md-8">{{ complaint.id }}</div>
+                    </div>
+                    
+                    <div class="row mb-2">
+                        <div class="col-md-4 fw-bold">नाम:</div>
+                        <div class="col-md-8">{{ complaint.name }}</div>
+                    </div>
+                    
+                    <div class="row mb-2">
+                        <div class="col-md-4 fw-bold">मोबाइल नंबर:</div>
+                        <div class="col-md-8">{{ complaint.mobile }}</div>
+                    </div>
+                    
+                    <div class="row mb-2">
+                        <div class="col-md-4 fw-bold">दिनांक:</div>
+                        <div class="col-md-8">{{ complaint.created_at.strftime('%d/%m/%Y') }}</div>
+                    </div>
+                    
+                    <div class="row mb-2">
+                        <div class="col-md-4 fw-bold">स्थिति:</div>
+                        <div class="col-md-8">
+                            {% if complaint.status == 'pending' %}
+                            <span class="status-pending"><i class="fas fa-clock"></i> लंबित</span>
+                            {% elif complaint.status == 'processing' %}
+                            <span class="status-processing"><i class="fas fa-spinner"></i> प्रक्रियाधीन</span>
+                            {% elif complaint.status == 'resolved' %}
+                            <span class="status-resolved"><i class="fas fa-check-circle"></i> समाधान हो गया</span>
+                            {% elif complaint.status == 'rejected' %}
+                            <span class="status-rejected"><i class="fas fa-times-circle"></i> अस्वीकृत</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-2">
+                        <div class="col-md-4 fw-bold">शिकायत विवरण:</div>
+                        <div class="col-md-8">{{ complaint.complaint_text }}</div>
+                    </div>
+                    
+                    {% if complaint.file_path %}
+                    <div class="row mb-2">
+                        <div class="col-md-4 fw-bold">अपलोड किया गया दस्तावेज़:</div>
+                        <div class="col-md-8">
+                            <a href="{{ url_for('static', filename=complaint.file_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-file"></i> दस्तावेज़ देखें
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">महत्वपूर्ण जानकारी</h5>
+                </div>
+                <div class="card-body">
+                    <p>आपकी शिकायत की जांच करने और उसे हल करने के लिए ग्राम पंचायत द्वारा निम्न प्रक्रिया अपनाई जाती है:</p>
+                    <ol>
+                        <li>शिकायत प्राप्त होने के बाद उसे पंजीकृत किया जाता है।</li>
+                        <li>पंचायत अधिकारी शिकायत की जांच करते हैं और आवश्यकतानुसार संबंधित विभाग को भेजते हैं।</li>
+                        <li>शिकायत का समाधान होने के बाद उसकी स्थिति को अपडेट किया जाता है।</li>
+                        <li>समस्याओं के समाधान के लिए आमतौर पर 7-15 दिन लगते हैं।</li>
+                    </ol>
+                    <p>अधिक जानकारी के लिए ग्राम पंचायत कार्यालय से संपर्क करें: <strong>07133-245678</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

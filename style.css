@@ -1,0 +1,74 @@
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --panchayat-primary: #FF9933;    
+  --panchayat-secondary: #138808;  
+  --panchayat-accent: #000080;     
+  --panchayat-light: #F8F5E4;      
+  --panchayat-dark: #333333;       
+  --tiranga-white: #FFFFFF;        
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  color: var(--panchayat-dark);
+  background: var(--panchayat-light);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Header Styles */
+.header {
+  background: #f8bb14;
+  padding: 1rem 0;
+  border-bottom: 3px solid var(--panchayat-primary);
+}
+
+/* Footer Styles */
+.footer {
+  background: var(--panchayat-accent);
+  color: var(--tiranga-white);
+  padding: 2rem 0;
+  margin-top: 2rem;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.footer h3 {
+  color: var(--panchayat-primary);
+  margin-bottom: 1rem;
+}
+
+.footer a {
+  color: var(--tiranga-white);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: var(--panchayat-primary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 10px;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+}
+

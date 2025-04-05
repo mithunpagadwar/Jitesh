@@ -1,0 +1,100 @@
+{% extends 'layout.html' %}
+
+{% block title %}फोटो गैलरी - ग्राम पंचायत चिखली{% endblock %}
+
+{% block head_extra %}
+<style>
+    .gallery-item {
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+    .gallery-item:hover {
+        transform: scale(1.03);
+    }
+    .gallery-image {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .gallery-tabs .nav-link {
+        color: #333;
+        font-weight: bold;
+    }
+    .gallery-tabs .nav-link.active {
+        background-color: #f8bb14;
+        color: #000;
+        border-color: #f8bb14;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h1 class="text-center mb-2">फोटो गैलरी</h1>
+    <p class="text-center mb-4">ग्राम पंचायत चिखली की फोटो गैलरी में आपका स्वागत है</p>
+
+    <ul class="nav nav-tabs gallery-tabs mb-4" id="galleryTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="gram-sabha-tab" data-bs-toggle="tab" data-bs-target="#gram-sabha" type="button" role="tab">ग्रामसभा</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="monthly-meeting-tab" data-bs-toggle="tab" data-bs-target="#monthly-meeting" type="button" role="tab">मासिक सभा</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="cultural-tab" data-bs-toggle="tab" data-bs-target="#cultural" type="button" role="tab">सांस्कृतिक कार्यक्रम</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="galleryTabsContent">
+        <!-- ग्रामसभा फोटो -->
+        <div class="tab-pane fade show active" id="gram-sabha" role="tabpanel">
+            <div class="row">
+                {% for photo in gram_sabha_photos %}
+                <div class="col-md-4 col-sm-6 gallery-item">
+                    <div class="card">
+                        <img src="data:image/svg+xml;base64,{{ photo.image }}" alt="{{ photo.title }}" class="gallery-image card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ photo.title }}</h5>
+                            <p class="card-text text-muted">दिनांक: {{ photo.date }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- मासिक सभा फोटो -->
+        <div class="tab-pane fade" id="monthly-meeting" role="tabpanel">
+            <div class="row">
+                {% for photo in monthly_meeting_photos %}
+                <div class="col-md-4 col-sm-6 gallery-item">
+                    <div class="card">
+                        <img src="data:image/svg+xml;base64,{{ photo.image }}" alt="{{ photo.title }}" class="gallery-image card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ photo.title }}</h5>
+                            <p class="card-text text-muted">दिनांक: {{ photo.date }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- सांस्कृतिक कार्यक्रम फोटो -->
+        <div class="tab-pane fade" id="cultural" role="tabpanel">
+            <div class="row">
+                {% for photo in cultural_photos %}
+                <div class="col-md-4 col-sm-6 gallery-item">
+                    <div class="card">
+                        <img src="data:image/svg+xml;base64,{{ photo.image }}" alt="{{ photo.title }}" class="gallery-image card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ photo.title }}</h5>
+                            <p class="card-text text-muted">दिनांक: {{ photo.date }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
